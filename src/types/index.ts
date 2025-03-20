@@ -22,11 +22,11 @@ export interface DefaultLayoutProps {
 }
 
 export interface ProtectedRouteProps {
-    children: JSX.Element;
+    children: React.ReactElement;
 }
 
 export interface RedirectIfAuthenticatedProps {
-    children: JSX.Element;
+    children: React.ReactElement;
 }
 
 export interface User {
