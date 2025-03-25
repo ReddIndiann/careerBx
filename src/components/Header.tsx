@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,42 +12,9 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50">
       <nav className="bg-white/95 backdrop-blur-sm shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            {/* Logo */}
-            <div className="flex-shrink-0 flex items-center">
-              <Link to="/" className="flex items-center">
-                <img src={logo} alt="Logo" className="h-10 w-auto" />
-                <span className="ml-3 text-xl font-semibold text-gray-900">CareerBox</span>
-              </Link>
-            </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link to="/" className="text-gray-700 hover:text-orange-500 px-3 py-2 text-sm font-medium transition-colors">
-                Home
-              </Link>
-              <Link to="/institutions" className="text-gray-700 hover:text-orange-500 px-3 py-2 text-sm font-medium transition-colors">
-                Institutions
-              </Link>
-              <Link to="/courses" className="text-gray-700 hover:text-orange-500 px-3 py-2 text-sm font-medium transition-colors">
-                Courses
-              </Link>
-              <Link to="/about" className="text-gray-700 hover:text-orange-500 px-3 py-2 text-sm font-medium transition-colors">
-                About Us
-              </Link>
-              <Link to="/contact" className="text-gray-700 hover:text-orange-500 px-3 py-2 text-sm font-medium transition-colors">
-                Contact
-              </Link>
-              <Link 
-                to="/login" 
-                className="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"
-              >
-                Sign In
-              </Link>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden flex items-center">
+          <div className="flex justify-end h-16">
+            {/* Menu button */}
+            <div className="flex items-center">
               <button
                 onClick={toggleMenu}
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-orange-500 focus:outline-none"
@@ -77,45 +43,58 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile menu */}
-        <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg rounded-b-xl">
-            <Link 
-              to="/" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 transition-colors"
-            >
-              Home
-            </Link>
-            <Link 
-              to="/institutions" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 transition-colors"
-            >
-              Institutions
-            </Link>
-            <Link 
-              to="/courses" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 transition-colors"
-            >
-              Courses
-            </Link>
-            <Link 
-              to="/about" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 transition-colors"
-            >
-              About Us
-            </Link>
-            <Link 
-              to="/contact" 
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 transition-colors"
-            >
-              Contact
-            </Link>
-            <Link 
-              to="/login" 
-              className="block px-3 py-2 rounded-md text-base font-medium bg-orange-500 text-white hover:bg-orange-600 transition-colors mt-4"
-            >
-              Sign In
-            </Link>
+        {/* Menu popup */}
+        <div 
+          className={`absolute top-16 right-0 w-64 transform transition-transform duration-300 ease-in-out ${
+            isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+          <div className="bg-white/95 backdrop-blur-sm shadow-lg rounded-l-xl py-4">
+            <div className="px-4 space-y-3">
+              <Link 
+                to="/" 
+                className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/institutions" 
+                className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Institutions
+              </Link>
+              <Link 
+                to="/courses" 
+                className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Courses
+              </Link>
+              <Link 
+                to="/about" 
+                className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About Us
+              </Link>
+              <Link 
+                to="/contact" 
+                className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-orange-50 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Contact
+              </Link>
+              <div className="border-t border-gray-200 my-2"></div>
+              <Link 
+                to="/login" 
+                className="block px-3 py-2 rounded-lg text-base font-medium bg-orange-500 text-white hover:bg-orange-600 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
