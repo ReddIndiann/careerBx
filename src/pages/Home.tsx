@@ -6,7 +6,7 @@ import StateSection from '../components/StateSection';
 import TestimonialSection from '../components/TestimonialSection';
 import SchoolTestBanner from '../components/SchoolTestBanner';
 import BlogSection from '../components/BlogSection';
-import Footer from '../components/Footer';
+// import Footer from '../components/Footer';
 import CombinedSection from '../components/CombinedSection';
 
 const Home = () => {
@@ -22,7 +22,7 @@ const Home = () => {
       <TestimonialSection />
   
       <BlogSection />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
