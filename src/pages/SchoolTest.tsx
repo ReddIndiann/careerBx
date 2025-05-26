@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 interface FormData {
   // Personal Information
@@ -271,6 +273,8 @@ const SchoolTest = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState('');
   const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -278,6 +282,30 @@ const SchoolTest = () => {
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
+  };
+
+  const handleSubmitToFirebase = async () => {
+    try {
+      setIsSubmitting(true);
+      const assessmentRef = collection(db, 'assessments');
+      const docRef = await addDoc(assessmentRef, {
+        ...formData,
+        timestamp: serverTimestamp(),
+        createdAt: new Date().toISOString(),
+      });
+      
+      if (docRef.id) {
+        setShowSuccessModal(true);
+      } else {
+        throw new Error('Failed to create document');
+      }
+    } catch (error) {
+      console.error('Error submitting assessment:', error);
+      // Show error message to user
+      alert('Failed to submit assessment. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const moveToNextQuestion = () => {
@@ -299,8 +327,7 @@ const SchoolTest = () => {
       setIsWaitingForResponse(false);
     } else {
       // End of questions
-      console.log('Form submitted:', formData);
-      navigate('/search-results');
+      handleSubmitToFirebase();
     }
   };
 
@@ -361,6 +388,11 @@ const SchoolTest = () => {
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
   const showCheckboxContinue = currentQuestion?.inputType === 'checkbox' && 
     (formData[currentQuestion.field] as string[])?.length > 0;
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+    navigate('/search-results');
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -447,6 +479,53 @@ const SchoolTest = () => {
               >
                 Continue
               </button>
+            </div>
+          )}
+
+          {showSuccessModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+                <div className="text-center">
+                  <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+                    <svg
+                      className="h-6 w-6 text-green-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    Assessment Submitted Successfully!
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-6">
+                    Thank you for completing the assessment. We'll analyze your responses and provide personalized recommendations.
+                  </p>
+                  <button
+                    onClick={handleCloseModal}
+                    className="w-full px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                  >
+                    View Results
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {isSubmitting && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+                  <p className="text-gray-700">Submitting your assessment...</p>
+                </div>
+              </div>
             </div>
           )}
         </div>

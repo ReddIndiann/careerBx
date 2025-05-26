@@ -5,7 +5,7 @@ import StateSection from '../components/StateSection';
 // import InstitutionSection from '../components/InstitutionSection';
 import TestimonialSection from '../components/TestimonialSection';
 import SchoolTestBanner from '../components/SchoolTestBanner';
-import BlogSection from '../components/BlogSection';
+import BlogPreview from '../components/BlogPreview';
 // import Footer from '../components/Footer';
 import CombinedSection from '../components/CombinedSection';
 
@@ -21,7 +21,7 @@ const Home = () => {
       <InstitutionSection /> */}
       <TestimonialSection />
   
-      <BlogSection />
+      <BlogPreview />
       {/* <Footer /> */}
     </div>
   );

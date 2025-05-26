@@ -134,7 +134,7 @@ const HeroSection = () => {
             </div>
 
             {/* Type Dropdown */}
-            <select
+            <select name='type' title='Type'
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl bg-white/50 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
               value={searchParams.type}
               onChange={(e) => setSearchParams(prev => ({ ...prev, type: e.target.value }))}

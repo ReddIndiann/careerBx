@@ -5,6 +5,9 @@ import SearchResults from './pages/SearchResults';
 import SchoolTest from './pages/SchoolTest';
 import Header from './components/Header';
 import { Toaster } from 'react-hot-toast';
+import ExcelUpload from './pages/ExcelUpload';
+import PostsUpload from './pages/PostsUpload';
+
 
 
 
@@ -18,7 +21,10 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/search-results" element={<SearchResults />} />
           <Route path="/school-test" element={<SchoolTest />} />
-      {/* >
+          <Route path="/excel-upload" element={<ExcelUpload />} />
+          <Route path="/posts-upload" element={<PostsUpload />} />
+         
+          {/* >
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/otp-entry" element={<OtpEntry />} />
           <Route path="/reset-password" element={<ResetPassword />} /> */}
