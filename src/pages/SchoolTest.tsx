@@ -405,7 +405,8 @@ const SchoolTest = () => {
   const currentQuestion = questions[currentQuestionIndex];
   const showInput = currentQuestion?.inputType === 'text' || currentQuestion?.inputType === 'select';
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
-  const showCheckboxContinue = currentQuestion?.inputType === 'checkbox' && 
+  const showCheckboxContinue = currentQuestion?.inputType === 'checkbox' &&
+    currentQuestion?.field && Array.isArray(formData[currentQuestion.field]) &&
     (formData[currentQuestion.field] as string[])?.length > 0;
 
   const handleCloseModal = () => {
@@ -442,14 +443,15 @@ const SchoolTest = () => {
                           disabled={isWaitingForResponse}
                           className={`block w-full text-left px-4 py-3 rounded-md hover:bg-gray-200 ${
                             message.inputType === 'checkbox' &&
-                            formData[message.field]?.includes(option)
+                            message.field && Array.isArray(formData[message.field]) &&
+                            (formData[message.field] as string[])?.includes(option)
                               ? 'bg-orange-100'
                               : ''
                           } ${isWaitingForResponse ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
-                          {message.inputType === 'checkbox' && (
+                          {message.inputType === 'checkbox' && message.field && Array.isArray(formData[message.field]) && (
                             <span className="mr-2">
-                              {formData[message.field]?.includes(option) ? '✓' : '○'}
+                              {(formData[message.field] as string[])?.includes(option) ? '✓' : '○'}
                             </span>
                           )}
                           {option}
