@@ -335,19 +335,28 @@ const SchoolTest = () => {
     if (isWaitingForResponse) return;
 
     const currentQuestion = questions[currentQuestionIndex];
+    if (!currentQuestion || !currentQuestion.field) {
+      console.error("Current question or field is undefined.");
+      return; // Or handle the error appropriately
+    }
+
     if (currentQuestion.inputType === 'checkbox') {
+      // Ensure formData[currentQuestion.field] is an array before using includes and filter
+      const currentFieldValue = formData[currentQuestion.field];
+      const updatedFieldValue = Array.isArray(currentFieldValue) ? currentFieldValue : [];
+
       setFormData(prev => ({
         ...prev,
-        [currentQuestion.field]: prev[currentQuestion.field].includes(option)
-          ? prev[currentQuestion.field].filter(item => item !== option)
-          : [...prev[currentQuestion.field], option]
+        [currentQuestion.field as keyof FormData]: updatedFieldValue.includes(option)
+          ? updatedFieldValue.filter((item: string) => item !== option)
+          : [...updatedFieldValue, option]
       }));
     } else {
       setIsWaitingForResponse(true);
       setMessages(prev => [...prev, { type: 'user', content: option }]);
       setFormData(prev => ({
         ...prev,
-        [currentQuestion.field]: option
+        [currentQuestion.field as keyof FormData]: option
       }));
       setTimeout(moveToNextQuestion, 500);
     }
@@ -357,6 +366,11 @@ const SchoolTest = () => {
     if (isWaitingForResponse) return;
     
     const currentQuestion = questions[currentQuestionIndex];
+     if (!currentQuestion || !currentQuestion.field) {
+      console.error("Current question or field is undefined.");
+      return; // Or handle the error appropriately
+    }
+
     const selectedOptions = formData[currentQuestion.field] as string[];
     
     if (selectedOptions.length === 0) return;
@@ -371,12 +385,17 @@ const SchoolTest = () => {
     if (!inputValue.trim() || isWaitingForResponse) return;
 
     const currentQuestion = questions[currentQuestionIndex];
+    if (!currentQuestion || !currentQuestion.field) {
+      console.error("Current question or field is undefined.");
+      return; // Or handle the error appropriately
+    }
+
     setIsWaitingForResponse(true);
     
     setMessages(prev => [...prev, { type: 'user', content: inputValue }]);
     setFormData(prev => ({
       ...prev,
-      [currentQuestion.field]: inputValue
+      [currentQuestion.field as keyof FormData]: inputValue
     }));
 
     setInputValue('');
